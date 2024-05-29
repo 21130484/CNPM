@@ -1,17 +1,19 @@
 package model;
 
+import com.example.food.R;
+
 import java.io.Serializable;
 
 public class Recipes implements Serializable {
     private int id;
     private String title;
     private String instructions;
-    private int image;
+    private String image;
 
     public Recipes() {
     }
 
-    public Recipes(int id, String title, String instructions, int image) {
+    public Recipes(int id, String title, String instructions, String image) {
         this.id = id;
         this.title = title;
         this.instructions = instructions;
@@ -42,11 +44,11 @@ public class Recipes implements Serializable {
         this.instructions = instructions;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -59,4 +61,5 @@ public class Recipes implements Serializable {
                 ", image=" + image +
                 '}';
     }
+
 }

@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.food.MainActivity;
 import com.example.food.R;
@@ -57,7 +58,8 @@ public class DatabaseHelper {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
                 String instructions = cursor.getString(2);
-                Recipes recipe = new Recipes(id, title, instructions, R.drawable.img1);
+                String image = cursor.getString(3);
+                Recipes recipe = new Recipes(id, title, instructions, image);
                 recipesList.add(recipe);
             } while (cursor.moveToNext());
         }
@@ -67,14 +69,15 @@ public class DatabaseHelper {
     }
     public static List<Recipes> getListSearch(SQLiteDatabase db, String textSearch) {
             List<Recipes> result = new ArrayList<>();
-            Cursor cursor = db.rawQuery("SELECT * FROM recipe WHERE title LIKE ?", new String[]{"%" + textSearch + "%"});
+            Cursor cursor = db.rawQuery("SELECT * FROM recipes WHERE title LIKE ?", new String[]{"%" + textSearch + "%"});
 
             if (cursor.moveToFirst()) {
                 do {
                     int id = cursor.getInt(0);
                     String title = cursor.getString(1);
                     String instructions = cursor.getString(2);
-                    Recipes recipe = new Recipes(id, title, instructions, R.drawable.img1);
+                    String image = cursor.getString(3);
+                    Recipes recipe = new Recipes(id, title, instructions, image);
                     result.add(recipe);
                 } while (cursor.moveToNext());
             }
@@ -83,29 +86,30 @@ public class DatabaseHelper {
             return result;
         }
 
-
-        public static long addFavoriteRecipe(SQLiteDatabase db, int userId, int recipeId) {
+        public static long addFavoriteRecipe(Activity activity, int userId, int recipeId) {
         ContentValues values = new ContentValues();
         values.put("user_id", userId);
         values.put("recipe_id", recipeId);
-
+        SQLiteDatabase db = initDatabase(activity, "data.db");
         return db.insert("favorite_recipes", null, values);
     }
 
     public static List<Recipes> getRecipeFavorite(SQLiteDatabase db, int user_id) {
         List<Recipes> recipesList = new ArrayList<>();
-        String query = "SELECT recipes.id, recipes.title, recipes.instructions " +
+        String query = "SELECT recipes.id, recipes.title, recipes.instructions, recipes.image " +
                 "FROM recipes " +
                 "INNER JOIN favorite_recipes ON recipes.id = favorite_recipes.recipe_id " +
-                "WHERE favorite_recipes.user_id = :user_id";
-        Cursor cursor = db.rawQuery(query, null);
+                "WHERE favorite_recipes.user_id = ?";
+
+        Cursor cursor = db.rawQuery(query,  new String[]{String.valueOf(user_id)});
 
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
                 String instructions = cursor.getString(2);
-                Recipes recipe = new Recipes(id, title, instructions, R.drawable.img1);
+                String image = cursor.getString(3);
+                Recipes recipe = new Recipes(id, title, instructions, image);
                 recipesList.add(recipe);
             } while (cursor.moveToNext());
         }
@@ -114,8 +118,17 @@ public class DatabaseHelper {
         return recipesList;
     }
 
-    public static void main(String[] args) {
-        SQLiteDatabase database = DatabaseHelper.initDatabase(new MainActivity(), "data.db");
-        System.out.println(getListSearch(database, "rau").get(0).toString());
+    public static String getIngredientName(SQLiteDatabase db, int recipeId) {
+        String re = "";
+        String query = "Select name from ingredients where recipe_id = ?";
+        Cursor cursor = db.rawQuery(query,  new String[]{String.valueOf(recipeId)});
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(0);
+                re += name + "\n";
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return re;
     }
 }
