@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
     public static SQLiteDatabase database;
     private RecyclerView recycler;
     private RecipesAdapter recipesAdapter;
-    private Button btn_list;
+    private TextView favorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +45,8 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recycler.addItemDecoration(itemDecoration);
 
-        btn_list = findViewById(R.id.btn_list);
-        btn_list.setOnClickListener(new View.OnClickListener() {
+        favorite = findViewById(R.id.favorite);
+        favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ListFavorite.class);

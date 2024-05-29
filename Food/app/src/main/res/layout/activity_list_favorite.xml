@@ -32,4 +32,35 @@
         android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="#f53f2d">
+
+        <TextView
+            android:id="@+id/home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Trang chủ"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@drawable/border"
+            android:gravity="center">
+
+        </TextView>
+        <TextView
+            android:id="@+id/favorite"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Yêu thích"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@drawable/border"
+            android:gravity="center">
+        </TextView>
+    </LinearLayout>
 </RelativeLayout>

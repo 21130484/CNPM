@@ -2,6 +2,9 @@ package model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +15,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.food.DetailRecipe;
 import com.example.food.R;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -42,7 +51,14 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
         if (recipes == null) {
             return;
         }
-        holder.img.setImageResource(recipes.getImage());
+        AssetManager manager = context.getAssets();
+        try {
+            InputStream inputStream = manager.open(recipes.getImage());
+            Drawable drawable = Drawable.createFromStream(inputStream, null);
+            holder.img.setImageDrawable(drawable);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         holder.text.setText(recipes.getTitle());
         holder.layout_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,4 +106,5 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
             layout_item = itemView.findViewById(R.id.layout_item);
         }
     }
+
 }

@@ -22,19 +22,42 @@
             android:layout_weight="1" />
 
     </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_below="@id/header"
+        android:layout_above="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btn_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Danh sách yêu thích"
-        android:layout_below="@id/recycler"
-        android:layout_marginTop= "20dp">
+    <LinearLayout
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="#f53f2d">
 
-    </Button>
+        <TextView
+            android:id="@+id/home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Trang chủ"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@drawable/border"
+            android:gravity="center">
+
+        </TextView>
+        <TextView
+            android:id="@+id/favorite"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Yêu thích"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@drawable/border"
+            android:gravity="center">
+        </TextView>
+    </LinearLayout>
 </RelativeLayout>
